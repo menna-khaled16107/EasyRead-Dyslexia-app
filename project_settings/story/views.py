@@ -3,7 +3,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
-from .serializers import StorySerializer, PreferenceSerializer
+from .serializers import ReadingProgressSerializer, StorySerializer, PreferenceSerializer
 from .models import Story, Preference, ReadingProgress, DifficultWord
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -30,7 +30,7 @@ class StoryRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, IsOwner | IsAdmin]       
 
 
-@action (details=True ,method=['post'], permission_classes=[IsAuthenticated, IsOwner])
+@action (detail=True ,methods=['post'], permission_classes=[IsAuthenticated, IsOwner])
 def submit_for_review(self, request, pk=None):
     story = self.get_object()
     if story.status == 'draft':
@@ -40,7 +40,7 @@ def submit_for_review(self, request, pk=None):
     else:
         return Response({'error': 'Only draft stories can be submitted for review'}, status=status.HTTP_400_BAD_REQUEST) 
 
-@action (details=True ,method=['post'], permission_classes=[IsAuthenticated, IsAdmin])
+@action (detail=True ,methods=['post'], permission_classes=[IsAuthenticated, IsAdmin])
 def approve_story(self, request, pk=None):
     story = self.get_object()
     if story.status == 'pending':
@@ -51,7 +51,7 @@ def approve_story(self, request, pk=None):
         return Response({'error': 'Only admin   can approve stories'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@action (details=True ,method=['post'], permission_classes=[IsAuthenticated, IsAdmin])
+@action (detail=True ,methods=['post'], permission_classes=[IsAuthenticated, IsAdmin])
 def reject_story(self, request, pk=None):
     story = self.get_object()
     rejection_reason = request.data.get('rejection_reason', '')
@@ -70,6 +70,17 @@ class PreferenceRetrieveUpdateView(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
     def get_object(self):
         return Preference.objects.get(user=self.request.user)
+
+class HistoryListView(generics.ListAPIView):
+    serializer_class = ReadingProgressSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.is_staff:
+            return ReadingProgress.objects.all()
+        return ReadingProgress.objects.filter(user=self.request.user)
+
+
 
 
 
