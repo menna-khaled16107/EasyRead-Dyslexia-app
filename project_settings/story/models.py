@@ -62,16 +62,20 @@ class ReadingProgress(models.Model):
     class Meta:
         unique_together = ('user', 'story')  
 
+    def __str__(self):
+        return f"{self.user}'s progress"  
+
 
 class DifficultWord(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='difficult_words')
     story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='difficult_words')
     word = models.CharField(max_length=100)
-
+    meaning = models.TextField(blank=True, null=True)
     class Meta:
         unique_together = ('user', 'story', 'word')
 
-
+    def __str__(self):
+        return f"{self.story}"
 
 
         

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'story',
     'django_filters',
+    'rest_framework_simplejwt.token_blacklist'
 ]
 AUTH_USER_MODEL = 'users.User'
 
@@ -139,7 +140,6 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication', 
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }

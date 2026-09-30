@@ -10,11 +10,7 @@ class Role(models.TextChoices):
 
 
 class User (AbstractUser):
-    role = models.CharField(
-        max_length=20,
-        choices=Role.choices,
-        default=Role.READER
-    )
+    role = models.CharField( max_length=20,  choices=Role.choices, default=Role.READER)
 
     def __str__(self):
         return f"{self.username}"
