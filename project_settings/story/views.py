@@ -68,12 +68,11 @@ def reject_story(request, pk):
     return Response({'error': 'Only admin can reject stories'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class PreferenceRetrieveUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = PreferenceSerializer
     permission_classes = [IsAuthenticated]
     def get_object(self):
-        return Preference.objects.get(user=self.request.user)
+        return get_object_or_404(Preference, user=self.request.user)
 
 class HistoryListView(generics.ListAPIView):
     serializer_class = ReadingProgressSerializer
