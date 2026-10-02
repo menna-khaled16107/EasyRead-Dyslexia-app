@@ -18,12 +18,12 @@ class ReadingProgressSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReadingProgress
-        fields = ['user', 'story', 'word_read', 'completed', 'progress']
+        fields = ['user', 'story', 'words_read', 'completed', 'progress']
         read_only_fields=['progress']
 
     def get_progress(self, obj):
         content = len(obj.story.content.split())
-        progress = min(round((obj.word_read / content) * 100, 2), 100)
+        progress = min(round((obj.words_read / content) * 100, 2), 100)
         return progress
 
   
@@ -33,7 +33,7 @@ class DifficultWordSerializer(serializers.ModelSerializer):
     class Meta:
         model = DifficultWord
         fields = '__all__'
-
+        read_only_fields = ['meaning', 'user']
 
 
 

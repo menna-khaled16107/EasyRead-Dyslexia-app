@@ -79,7 +79,7 @@ class HistoryListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.is_staff:
+        if self.request.user.is_staff:
             return ReadingProgress.objects.all()
         return ReadingProgress.objects.filter(user=self.request.user)
 
@@ -106,7 +106,7 @@ class DifficultWordListCreateView(generics.ListCreateAPIView):
         return DifficultWord.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        word = serializer.validated_data.get('word')#delete
+        word = serializer.validated_data.get('word')
         meaning = getMeaning(word)
         serializer.save(user=self.request.user, meaning=meaning)
 
@@ -148,19 +148,12 @@ class Recommended(generics.ListAPIView):
         count=0
         total=0
         for x in records:
-            tot_progress=min(round((x.word_read/len(x.story.content.split()) ) * 100, 2), 100)
+            tot_progress=min(round((x.words_read/len(x.story.content.split()) ) * 100, 2), 100)
             total+=tot_progress
             count+=1
         if count==0:
             return     Story.objects.filter (level='beginner') 
         return Recommendations(total/count)
         
-
-
-
-
-
-
-
 
 
