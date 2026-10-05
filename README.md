@@ -16,7 +16,7 @@ need a way to track progress and review words they find difficult.
 - *Content Creators* — write stories and submit them for review.
 - *Admins* — review, publish, or reject submitted stories.
 
----
+
 
 ## 2. Main Features
 
@@ -30,17 +30,16 @@ need a way to track progress and review words they find difficult.
 - Story levels: beginner / intermediate / advanced
 - Validation, filtering, searching, and ordering on stories
 
----
+
 
 ## 3. Technologies Used
 
 - Python 3
 - Django
 - Django REST Framework (DRF)
-- PostgreSQL
 - JWT (djangorestframework-simplejwt)
 
----
+
 ## 6. How to Run Locally
 
 cd project_settings   
@@ -51,7 +50,7 @@ The API will be available at http://127.0.0.1:8000/.
 
 ## 7. API Documentation
 
-Full interactive documentation (Apidog): *<>*
+Full interactive documentation (Apidog): *<x72nmgg7w2.apidog.io>*
 
 *Design notes*
 - User extends AbstractUser with a role field (Reader / Creator / Admin).
@@ -61,7 +60,7 @@ Full interactive documentation (Apidog): *<>*
 - DifficultWord links a user to a saved word.
 
 *Relationships*
-- User 1 — N Story (author)
+- User 1 — N Story 
 - User 1 — 1 Preference
 - User 1 — N ReadingProgress — N 1 Story
 - User 1 — N DifficultWord
