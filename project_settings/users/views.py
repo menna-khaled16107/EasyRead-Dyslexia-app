@@ -16,7 +16,6 @@ class UserCreateView(generics.CreateAPIView):
         Preference.objects.create(user=x)
 
 
-
 class Logout(APIView):
     permission_classes = [IsAuthenticated]
 
